@@ -15,6 +15,32 @@ const mockTransactions = [
 
 let transactions = mockTransactions;
 
+// Add transaction
+function addTransaction(e) {
+    e.preventDefault();
+
+    if (transaction.value === '' || amount.value === '') {
+        alert('Please enter a transaction and the amount');
+    } else {
+        const newTransaction = {
+            id: generateID(),
+            text: transaction.value,
+            amount: +amount.value
+        }
+
+        transactions.push(newTransaction);
+        addTransactionToUI(newTransaction);
+        updateValues();
+        transaction.value = '';
+        amount.value = '';
+    }
+}
+
+// Generate random ID for transaction
+function generateID() {
+    return Math.floor(Math.random() * 100000000);
+}
+
 // Add transaction to strong list
 function addTransactionToUI(transaction) {
     const sign = transaction.amount < 0 ? '-' : '+';
@@ -22,7 +48,7 @@ function addTransactionToUI(transaction) {
     item.classList.add(transaction.amount < 0 ? 'minus': 'plus');
 
     item.innerHTML = `${transaction.text} <span>${sign}${Math.abs(transaction.amount)}</span>
-        <button class='delete-btn'>X</button>`;
+        <button class='delete-btn' onclick='removeTransaction(${transaction.id})'>X</button>`;
     list.appendChild(item);
 }
 
@@ -42,6 +68,13 @@ function updateValues() {
     money_minus.innerText = `$${expense}`;
 }
 
+// Remove transaction by ID
+function removeTransaction(id) {
+    transactions = transactions.filter(trans => trans.id !== id);
+    init();
+}
+
+// On init
 function init() {
     list.innerHTML = '';
     transactions.forEach(addTransactionToUI);
@@ -49,3 +82,6 @@ function init() {
 }
 
 init();
+
+// Event listeners
+form.addEventListener('submit', addTransaction);
