@@ -6,14 +6,10 @@ const form = document.getElementById('form');
 const transaction = document.getElementById('transaction');
 const amount = document.getElementById('amount');
 
-const mockTransactions = [
-    { id: 1, text: 'Flower', amount: -20 },
-    { id: 2, text: 'Salary', amount: 300 },
-    { id: 3, text: 'Book', amount: -10 },
-    { id: 4, text: 'Camera', amount: 150 }
-]
+const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
 
-let transactions = mockTransactions;
+// Check and return items in local storage
+let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
 
 // Add transaction
 function addTransaction(e) {
@@ -31,6 +27,7 @@ function addTransaction(e) {
         transactions.push(newTransaction);
         addTransactionToUI(newTransaction);
         updateValues();
+        updateLocalStorage();
         transaction.value = '';
         amount.value = '';
     }
@@ -54,8 +51,7 @@ function addTransactionToUI(transaction) {
 
 // Updates the balance, income and expense
 function updateValues() {
-    const amounts = transactions.map(trans => 
-    trans.amount);
+    const amounts = transactions.map(trans => trans.amount);
 
     const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
 
@@ -71,12 +67,19 @@ function updateValues() {
 // Remove transaction by ID
 function removeTransaction(id) {
     transactions = transactions.filter(trans => trans.id !== id);
+    updateLocalStorage();
     init();
+}
+
+// Update local storage transactions
+function updateLocalStorage() {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 // On init
 function init() {
     list.innerHTML = '';
+    console.log(transactions);
     transactions.forEach(addTransactionToUI);
     updateValues();
 }
