@@ -14,8 +14,8 @@ Expensesify helps you know how much you have coming in. Know which clients / bor
 
 Combining your income and expenses info gives you and insight into your cashflow. Ensure you always have more coming in than going out.
 
-Add transactions and get real-time updates. Delete transactions (maybe caused by error), refresh and see the changes.
+Add transactions and get real-time updates. Delete transactions (maybe caused by error) and see the changes immediately.
 
 ## TOOLS
 
-Expensesify was built with HTML, CSS, JS, AJAX, Python (Flask) and SQL. The CS50 IDE was used as the IDE for this project.
+Expensesify was built simply with HTML, CSS and JS.
